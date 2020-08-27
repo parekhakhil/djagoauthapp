@@ -1,0 +1,59 @@
+{% extends 'base.html' %} {% load static %} {% block title%}Login {% endblock %}
+{% block content %}
+<div class="row">
+  <div class="col-md-3 col-sm-2"></div>
+  <div class="col-md-6 col-sm-8" style="top: 40%;">
+    <div class="row" style="top: 40%;">
+      <div class="col-md-2"></div>
+      <div class="col-md-8 col-sm-12 col-8">
+        <div class="card mt-5">
+          <img
+            src="https://mta-instagram-clone.herokuapp.com/static/img/instagram-wordmark.svg"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body">
+            <form action="{% url 'authapp:login' %}" method="post">
+              {% csrf_token %} {% if messages %} {% for message in messages %}
+              <div class="alert">{{message}}</div>
+              {% endfor %} {% endif %}
+
+              <div class="form-group">
+                <input
+                  class="form-control form-control-sm"
+                  type="text"
+                  name="username"
+                  value="{{data.username}}"
+                  placeholder="Email or Username"
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  class="form-control form-control-sm"
+                  type="password"
+                  name="password"
+                  value=""
+                  placeholder="Password"
+                />
+              </div>
+              <input
+                type="submit"
+                value="SignIn"
+                class="btn btn-sm btn-block btn-primary"
+              />
+            </form>
+            <hr>
+            <small>
+            <p style="text-decoration: none;text-align: center;"> <a href="#" class="left-align">Forgot Password?</a></p>
+            </small>
+            <small>
+              <p style="text-decoration: none;text-align: center;">Not a user? <a href="{% url 'authapp:register' %}" class="left-align">SignUp</a> here</p>
+              </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
