@@ -3,6 +3,15 @@ from django.views.generic import View
 from django.contrib import messages
 from validate_email import validate_email
 from django.contrib.auth.models import  User
+
+
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
+from django.utils.encoding import  force_bytes,force_text,DjangoUnicodeDecodeError
+from .utils import generate_token
+from django.core.mail import EmailMessage
+from django.conf import settings
 # Create your views here.
 
 
@@ -63,6 +72,24 @@ class RegistrationView(View):
         user.last_name = last_name
         user.is_active = False
         user.save()
+        
+        current_site = get_current_site(request)
+        email_subject = 'Activate account',
+        message = render_to_string('auth/activate.html',{
+            'user': user,
+            'domain':current_site.domain,
+            'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': generate_token.make_token(user)
+        })
+
+        activation_email = EmailMessage(
+            email_subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            [email],
+            
+        )
+        activation_email.send()
         messages.add_message(request, messages.SUCCESS,
                              'account created succesfully')
 
@@ -72,3 +99,20 @@ class RegistrationView(View):
 class LoginView(View):
     def get(self,request):
         return render(request,'auth/login.html')
+
+    
+class ActivateAccountView(View):
+    def get(self,request,uidb64,token):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except Exception as identifier:
+            user = None
+
+        if user is not None and generate_token.check_token(user,token):
+            user.is_active =True
+            user.save()
+            messages.add_message(request,messages.success,'Account activated successfully!!!')
+            return redirect('authapp:login')
+        return render(request,'auth/activation_failed.html',status=401)
+

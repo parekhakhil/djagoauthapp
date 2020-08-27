@@ -1,0 +1,6 @@
+{% autoescape off %}
+    Hi {{user.first_name}} {{user.last_name}},
+    Welcome to the site of mine
+    Please click on this button to activate your account
+    <a href="http://{{domain}}{% url 'authapp:activate' uidb64=uid token=token %}"></a>
+{% endautoescape %}
