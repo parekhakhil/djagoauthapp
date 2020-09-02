@@ -75,7 +75,7 @@ class RegistrationView(View):
         user.save()
         
         current_site = get_current_site(request)
-        email_subject = 'Activate account',
+        email_subject = 'Activate account'
         message = render_to_string('auth/activate.html',{
             'user': user,
             'domain':current_site.domain,
@@ -125,9 +125,9 @@ class LoginView(View):
         if context['has_error']:
             return render(request,'auth/login.html',status=401,context=context)
         login(request,user)
-        return redirect('home')
+        return redirect('authapp:home')
 
-        return render(request,'auth/login.html',context)
+    
     
 
 class ActivateAccountView(View):
@@ -147,3 +147,14 @@ class ActivateAccountView(View):
             return redirect('authapp:login')
         return render(request,'auth/activation_failed.html',status=401)
 
+
+class HomeView(View):
+    def get(self, request):
+        return render(request, 'home.html')
+
+
+class LogoutView(View):
+    def post(self, request):
+        logout(request)
+        messages.add_message(request, messages.SUCCESS, 'Logout successfully')
+        return redirect('authapp:login')

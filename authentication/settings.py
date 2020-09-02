@@ -144,3 +144,8 @@ MESSAGE_TAGS = {
     messages.WARNING : 'warning',
 
 }
+
+LOGIN_URL = 'authapp:login'
+LOGIN_REDIRECT_URL = 'authapp:home'
+LOGOUT_URL = 'authapp:logout'
+LOGOUT_REDIRECT_URL = 'authapp:login'
