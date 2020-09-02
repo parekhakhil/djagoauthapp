@@ -12,4 +12,4 @@ install:
   pip install
 
 script:
-  - python manage.py test
+  - python manage.py tes
