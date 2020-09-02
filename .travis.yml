@@ -1,0 +1,15 @@
+language: python
+python:
+      - "3.8.5"
+
+env:
+  - SECRET_KEY = "TEST"
+
+services:
+  - db.sqlite3
+
+install:
+  pip install
+
+script:
+  - python manage.py test
