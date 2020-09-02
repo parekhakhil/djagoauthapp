@@ -17,9 +17,7 @@
             <h5 class="card-title text-muted">
               Sign up to see photos and videos from your friends.
             </h5>
-            <a href="" class="btn btn-sm btn-block btn-primary"
-              ><i class="fa fa-facebook"></i> Login with Facebook</a
-            >
+            {% include 'partial/_social_auth.html' %}
 
             <div class="row">
               <div class="col-md-5 col-sm-5">
@@ -32,16 +30,8 @@
                 <hr />
               </div>
             </div>
-            {% if messages %}
-            {% for message in messages %}
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              {{message}}
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            {% endfor %}
-          {% endif %}
+            
+            {% include 'partial/_flash_message.html'%}
             <form action="{% url 'authapp:register' %}" method="post">
               {% csrf_token %}
 

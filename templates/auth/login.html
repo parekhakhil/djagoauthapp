@@ -2,8 +2,8 @@
 {% block content %}
 <div class="row">
   <div class="col-md-3 col-sm-2"></div>
-  <div class="col-md-6 col-sm-8" style="top: 40%;">
-    <div class="row" style="top: 40%;">
+  <div class="col-md-6 col-sm-8" style="top: 40%">
+    <div class="row" style="top: 40%">
       <div class="col-md-2"></div>
       <div class="col-md-8 col-sm-12 col-8">
         <div class="card mt-5">
@@ -13,10 +13,26 @@
             alt="..."
           />
           <div class="card-body">
+            <h5 class="card-title text-muted">
+              LogIn to see what's there for you inside the box.
+            </h5>
+            {% include 'partial/_social_auth.html' %}
+            <div class="row">
+              <div class="col-md-5 col-sm-5">
+                <hr />
+              </div>
+              <div class="col-md-2 col-sm-2">
+                <p class="text-muted">   &nbsp;             OR</p>
+              </div>
+              <div class="col-md-5 col-sm-5">
+                <hr />
+              </div>
+            </div>
+            {% include 'partial/_flash_message.html'%}
+            
             <form action="{% url 'authapp:login' %}" method="post">
-              {% csrf_token %} {% if messages %} {% for message in messages %}
-              <div class="alert">{{message}}</div>
-              {% endfor %} {% endif %}
+              {% csrf_token %}
+              
 
               <div class="form-group">
                 <input
@@ -42,13 +58,21 @@
                 class="btn btn-sm btn-block btn-primary"
               />
             </form>
-            <hr>
+            <hr />
             <small>
-            <p style="text-decoration: none;text-align: center;"> <a href="#" class="left-align">Forgot Password?</a></p>
+              <p style="text-decoration: none; text-align: center">
+                <a href="#" class="left-align">Forgot Password?</a>
+              </p>
             </small>
             <small>
-              <p style="text-decoration: none;text-align: center;">Not a user? <a href="{% url 'authapp:register' %}" class="left-align">SignUp</a> here</p>
-              </small>
+              <p style="text-decoration: none; text-align: center">
+                Not a user?
+                <a href="{% url 'authapp:register' %}" class="left-align"
+                  >SignUp</a
+                >
+                here
+              </p>
+            </small>
           </div>
         </div>
       </div>
